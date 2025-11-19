@@ -19,14 +19,10 @@ public class Book {
     public int getNumber() {return number;}
 
     //책 제목 조회
-    public String getTile() {
-        return title;
-    }
+    public String getTile() {return title;}
 
     //책 대여여부 조회
-    public boolean getRentalStatus() {
-        return rentalStatus;
-    }
+    public boolean getRentalStatus() {return rentalStatus;}
 
     //세터 - 대여여부
     public void setRentalStatus(boolean rentalStatus) {this.rentalStatus = rentalStatus;}
