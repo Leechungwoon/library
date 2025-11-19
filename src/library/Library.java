@@ -4,26 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//Todo
 //역할 책 도서관이 책 목록 조회
 // 도서관을 통해 조회, 대여, 반납 기능 구현
 // 기능 -> 책이름을 통하여 조회, 대여, 반납 진행
 // 키오스크 기능 일부 구현
 
 public class Library {
-
     Scanner text = new Scanner(System.in);
     // 속
+    // 도서관에서 관리하는 책 정리 코드
     private List<Book> bookList = new ArrayList<>();
-//    private List<Book> bookList;
-
 
     //생
-    public Library() {
-    }
+    public Library() {}
 
     // 기
-
     public void start() {
 
         while (true) {
@@ -48,8 +43,7 @@ public class Library {
 
                 case 1:
                     System.out.println("책을 조회합니다.");
-                    String titleSearchAll = text.nextLine();
-                    allBookSearch(titleSearchAll);
+                    allBookSearch();
                     break;
 
                 // 조회
@@ -76,7 +70,6 @@ public class Library {
                 default:
                     System.out.println("잘 못 입력했습니다.");
             }
-
         }
     }
 
@@ -90,20 +83,22 @@ public class Library {
     // Todo 책 제목 조회하는 기능 추가,
     //  bookSearch(String Title) -> 책 조회 시 제목으로 하기에 문자열로 수정
     // 책 전체 리스트 조회
-    public Book allBookSearch(String title) {
+    public Book allBookSearch() {
 
         //책 전체 리스트
         for (int i = 0; i < bookList.size(); i++) {
             Book books = bookList.get(i);
             System.out.println((i + 1) + ". " + "제목: " + books.getTile() + " | " + books.getRentalStatus());
         }
+        //책을 찾을 수 없는 경우
         System.out.println();
         return null;
     }
+
     //책 단 건 조회
     public Book bookSearch(String title) {
         for (Book book : bookList) {
-            if (book.getTile().equalsIgnoreCase(title)) {
+            if (book.getTile().equals(title)) {
                 System.out.println(book.getNumber() + ". " + "제목: " + book.getTile() + " | " + "대여여부: " + book.getRentalStatus());
                 return book;
             }
@@ -118,13 +113,8 @@ public class Library {
     public void bookRental(String title) {
         Book book = bookSearch(title);
 
-        if (book == null) {
-            System.out.println("책을 찾을 수 없습니다.");
-            return;
-        }
-
-        if (book.getRentalStatus()) {
-            book.setRentalStatus(false);
+        if (book.getRentalStatus()) { //true인 경우 대여 가능
+            book.setRentalStatus(false); // 대여 시 false로 바꿔줌
             System.out.println(book.getNumber() + "." + book.getTile() + " | " + "대여 완료 되셨습니다.");
         } else {
             System.out.println(book.getNumber() + "." + book.getTile() + " | " + "대여 불가합니다.");
@@ -136,11 +126,6 @@ public class Library {
 //Todo 문자열 변경
     public void bookReturn(String title) {
         Book book = bookSearch(title);
-
-        if (book == null) {
-            System.out.println("없는 책입니다.");
-            return;
-        }
 
         if (!book.getRentalStatus()) { // false 상태 = 반납 가능
             book.setRentalStatus(true); // 반납 후 대여 가능으로 변경
