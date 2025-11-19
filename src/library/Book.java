@@ -29,7 +29,5 @@ public class Book {
     }
 
     //세터 - 대여여부
-    public void setRentalStatus(boolean rentalStatus) {
-        this.rentalStatus = rentalStatus;
-    }
+    public void setRentalStatus(boolean rentalStatus) {this.rentalStatus = rentalStatus;}
 }
