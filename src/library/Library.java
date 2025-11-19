@@ -79,10 +79,7 @@ public class Library {
         System.out.println("책 등록 됐습니다.");
     }
 
-    // 책 조회 기능 ->
-    // Todo 책 제목 조회하는 기능 추가,
-    //  bookSearch(String Title) -> 책 조회 시 제목으로 하기에 문자열로 수정
-    // 책 전체 리스트 조회
+    // 책 전체 목록 조회
     public Book allBookSearch() {
 
         //책 전체 리스트
@@ -108,8 +105,6 @@ public class Library {
     }
 
     //책 대여 기능
-    //Todo -> 문자열로 추가 -> 완료
-    // 책 여부 확인 -> 책 대여
     public void bookRental(String title) {
         Book book = bookSearch(title);
 
@@ -123,7 +118,6 @@ public class Library {
     }
 
     //책 반납 기능
-//Todo 문자열 변경
     public void bookReturn(String title) {
         Book book = bookSearch(title);
 
