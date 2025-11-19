@@ -1,75 +1,156 @@
 package library;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 //Todo
 //역할 책 도서관이 책 목록 조회
 // 도서관을 통해 조회, 대여, 반납 기능 구현
+// 기능 -> 책이름을 통하여 조회, 대여, 반납 진행
+// 키오스크 기능 일부 구현
 
 public class Library {
 
+    Scanner text = new Scanner(System.in);
     // 속
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<>();
+//    private List<Book> bookList;
+
 
     //생
-    public Library(List<Book> bookList) {
-        this.bookList = bookList;
+    public Library() {
     }
 
     // 기
 
-    //책 보관 및 생성
-    public void addBooks(Book book) {
-        bookList.add(book);
+    public void start() {
+
+        while (true) {
+
+            // 메뉴판
+            System.out.println("1. 전체 책 조회");
+            System.out.println("2. 책 조회");
+            System.out.println("3. 책 대여");
+            System.out.println("4. 책 반납");
+            System.out.println("0. 종료합니다.");
+
+            //Scanner 생성
+            int textInput = text.nextInt();
+            text.nextLine(); // 엔터 제거 역할
+
+            // 카테고리별 메뉴
+            switch (textInput) {
+                //종료
+                case 0:
+                    System.out.println("시스템을 종료합니다.");
+                    return;
+
+                case 1:
+                    System.out.println("책을 조회합니다.");
+                    String titleSearchAll = text.nextLine();
+                    allBookSearch(titleSearchAll);
+                    break;
+
+                // 조회
+                case 2:
+                    System.out.println("책을 조회합니다.");
+                    String titleSearch = text.nextLine();
+                    bookSearch(titleSearch);
+                    break;
+
+                //대여
+                case 3:
+                    System.out.println("대여할 책을 선택하세요.");
+                    String RentBookTitle = text.nextLine();
+                    bookRental(RentBookTitle);
+                    break;
+
+                //반납
+                case 4:
+                    System.out.println("반납할 책을 선택하세요.");
+                    String ReturnBookTitle = text.nextLine();
+                    bookReturn(ReturnBookTitle);
+                    break;
+
+                default:
+                    System.out.println("잘 못 입력했습니다.");
+            }
+
+        }
     }
 
-    // 책 조회 기능
-    public void bookSearch(Book book) {
+    //책 보관 및 생성(추가)
+    public void addBooks(Book book) {
+        bookList.add(book);
+        System.out.println("책 등록 됐습니다.");
+    }
 
-        // 책 정보 (번호, 제목, 대여여부)
-        int number = book.getNumber();
-        String title = book.getTile();
-        boolean rentalStatus = book.getRentalStatus();
+    // 책 조회 기능 ->
+    // Todo 책 제목 조회하는 기능 추가,
+    //  bookSearch(String Title) -> 책 조회 시 제목으로 하기에 문자열로 수정
+    // 책 전체 리스트 조회
+    public Book allBookSearch(String title) {
 
-        if (rentalStatus) { //true인 경우 대여가능
-            System.out.println(number + "." + title + " | " + "대여 가능합니다.");
-        } else {
-            System.out.println(number + "." + title + " | " + "대여 불가능합니다.");
+        //책 전체 리스트
+        for (int i = 0; i < bookList.size(); i++) {
+            Book books = bookList.get(i);
+            System.out.println((i + 1) + ". " + "제목: " + books.getTile() + " | " + books.getRentalStatus());
         }
+        System.out.println();
+        return null;
+    }
+    //책 단 건 조회
+    public Book bookSearch(String title) {
+        for (Book book : bookList) {
+            if (book.getTile().equalsIgnoreCase(title)) {
+                System.out.println(book.getNumber() + ". " + "제목: " + book.getTile() + " | " + "대여여부: " + book.getRentalStatus());
+                return book;
+            }
+        }
+        System.out.println("없는 제목입니다.");
+        return null; // 못 찾으면 null
     }
 
     //책 대여 기능
-    public void bookRental(Book book) {
+    //Todo -> 문자열로 추가 -> 완료
+    // 책 여부 확인 -> 책 대여
+    public void bookRental(String title) {
+        Book book = bookSearch(title);
 
-        //책 정보 (번호, 제목, 대여여부)
-        int number = book.getNumber();
-        String title = book.getTile();
-        boolean rentalStatus = book.getRentalStatus();
-
-        if (rentalStatus) { //true 상태인 경우 실행
-            book.setRentalStatus(false); //true 실행 시 false로 변경
-            System.out.println(number + ". " + title + " 대여 완료됐습니다.");
-        } else {
-            System.out.println("대여 불가능 합니다.");
+        if (book == null) {
+            System.out.println("책을 찾을 수 없습니다.");
+            return;
         }
+
+        if (book.getRentalStatus()) {
+            book.setRentalStatus(false);
+            System.out.println(book.getNumber() + "." + book.getTile() + " | " + "대여 완료 되셨습니다.");
+        } else {
+            System.out.println(book.getNumber() + "." + book.getTile() + " | " + "대여 불가합니다.");
+        }
+        System.out.println();
     }
 
     //책 반납 기능
-    public void bookReturn(Book book) {
-//      책 정보 (번호, 제목, 대여여부)
-        int number = book.getNumber();
-        String title = book.getTile();
-        boolean rentalStatus = book.getRentalStatus();
+//Todo 문자열 변경
+    public void bookReturn(String title) {
+        Book book = bookSearch(title);
 
-        if (rentalStatus == false) { // false 상태인 경우 실행
-            book.setRentalStatus(true); // 대여 완료 되면서 true로 변경해주는 코드
-            System.out.println(number + ". " + title + " | " + "반납 기능합니다.");
-        } else {
-            System.out.println(number + ". " + title + " | " + "반납 불가능합니다.");
+        if (book == null) {
+            System.out.println("없는 책입니다.");
+            return;
         }
+
+        if (!book.getRentalStatus()) { // false 상태 = 반납 가능
+            book.setRentalStatus(true); // 반납 후 대여 가능으로 변경
+            System.out.println(book.getNumber() + ". " + book.getTile() + " | " + "반납 기능합니다.");
+        } else {
+            System.out.println(book.getNumber() + ". " + book.getTile() + " | " + "반납 불가능합니다.");
+        }
+        System.out.println();
     }
 }
-
 
 
 
