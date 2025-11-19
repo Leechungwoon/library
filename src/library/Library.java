@@ -16,7 +16,8 @@ public class Library {
     private List<Book> bookList = new ArrayList<>();
 
     //생
-    public Library() {}
+    public Library() {
+    }
 
     // 기
     public void start() {

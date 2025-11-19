@@ -9,17 +9,14 @@ public class Book {
 
     // 생성자
     public Book(int number, String title, boolean rentalStatus) {
-        this.number = number;
-        this.title = title;
-        this.rentalStatus = rentalStatus;
+        this.number = number; //책 번호 저장
+        this.title = title; // 제목 저장
+        this.rentalStatus = rentalStatus; //대여 여부 저장
     }
 
     // 기능
-    //Getter 구간
     //책 번호 조회
-    public int getNumber() {
-        return number;
-    }
+    public int getNumber() {return number;}
 
     //책 제목 조회
     public String getTile() {
